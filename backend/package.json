@@ -1,9 +1,15 @@
 {
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node ./dist/index.js",
+    "dev": "node --watch --import tsx/esm src/index.ts"
+  },
   "dependencies": {
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "@types/express": "^5.0.6"
+    "@types/express": "^5.0.6",
+    "tsx": "^4.22.4"
   },
   "type": "module"
 }
