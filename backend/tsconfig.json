@@ -7,8 +7,8 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
+    "module": "ESNext",
+    "target": "ES2020",
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
@@ -39,7 +39,8 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
     "skipLibCheck": true,
   }
 }
