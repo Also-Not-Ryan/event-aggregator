@@ -18,7 +18,7 @@ export async function fetchEventsFromPredictHQ(city: string) {
             id: event.id,
             url: `https://www.google.com/search?q=${encodeURIComponent(event.title)}`,
             date: event.start_local,
-            location: event.entities[0]?.name || 'Unknown location',
+            location: event.entities.find((e: any) => e.type === 'venue')?.name || 'Unknown location',
             category: event.category,
             source: 'PredictHQ',
             description: event.description || ''
