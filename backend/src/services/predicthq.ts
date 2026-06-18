@@ -7,8 +7,24 @@ export async function fetchEventsFromPredictHQ(city: string) {
         });
         const eventsData = await response.json();
 
-        console.log('PredictHQ API response:', eventsData); // Log the raw response for debugging
-        return eventsData;
+        const rawEvents = eventsData.results;
+
+        if(!rawEvents || rawEvents.length === 0){
+            return [];
+        }
+
+        const normalizedEvents = rawEvents.map((event: any) => ({
+            title: event.title,
+            id: event.id,
+            url: `https://www.google.com/search?q=${encodeURIComponent(event.title)}`,
+            date: event.start_local,
+            location: event.entities[0]?.name || 'Unknown location',
+            category: event.category,
+            source: 'PredictHQ',
+            description: event.description || ''
+        }));
+
+        return normalizedEvents;
     }catch (error) {
         console.error('Error fetching events from PredictHQ:', error);
         return [];
