@@ -4,13 +4,9 @@ import {fetchEventsFromTicketmaster } from '../services/ticketmaster.js';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    res.send('Events endpoint');
-    const events = await fetchEventsFromTicketmaster('Vancouver');
+    const city = req.query.city as string
+    const events = await fetchEventsFromTicketmaster(city);
     res.json(events);
-
-    //const city = req.query.city
-    // call fetchEventsFromTicketmaster with city
-    // send the result back with res.json()
 })
 
 export default router;

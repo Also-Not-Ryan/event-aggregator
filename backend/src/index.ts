@@ -4,6 +4,10 @@ import 'dotenv/config'
 
 const app = express();
 
+app.get("/", (req, res) => {
+    res.send("Hello");
+});
+
 app.use('/events', eventRoutes);
 
 const PORT = 3000;
