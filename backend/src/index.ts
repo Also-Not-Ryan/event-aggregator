@@ -1,6 +1,6 @@
+import 'dotenv/config'
 import express from 'express';
 import eventRoutes from './routes/events.js';
-import 'dotenv/config'
 
 const app = express();
 

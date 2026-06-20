@@ -3,11 +3,11 @@ export async function fetchEventsFromTicketmaster(city: string) {
         const response = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?city=${city}&apikey=${process.env.TICKETMASTER_API_KEY}`);
         const eventsData = await response.json();
 
-        const rawEvents = eventsData._embedded.events
-
-        if(!rawEvents || rawEvents.length === 0){
+        
+        if(!eventsData._embedded){
             return [];
         }
+        const rawEvents = eventsData._embedded.events;
 
         const normalizedEvents = rawEvents.map((event: any) => ({
             title: event.name,

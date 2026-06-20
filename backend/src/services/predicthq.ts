@@ -7,12 +7,13 @@ export async function fetchEventsFromPredictHQ(city: string) {
         });
         const eventsData = await response.json();
 
-        const rawEvents = eventsData.results;
-
-        if(!rawEvents || rawEvents.length === 0){
+        
+        if(!eventsData.results){
             return [];
         }
+        const rawEvents = eventsData.results;
 
+        
         const normalizedEvents = rawEvents.map((event: any) => ({
             title: event.title,
             id: event.id,
