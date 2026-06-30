@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "i18n-iso-countries": "^7.14.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "world-countries": "^5.1.0"
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
