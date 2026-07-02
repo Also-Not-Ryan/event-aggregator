@@ -1,21 +1,38 @@
 import { useState } from 'react'
 import './App.css'
 import { getCountrylist } from './utilities/countries'
+import { fetchEvents } from './services/eventService'
+import EventCard from './components/EventCard'
+import type { Event } from './types/event'
 
 function App() {
 
   const [selectedCountry, setSelectedCountry] = useState("")
-
   const [selectedCity, setSelectedCity] = useState("")
+  const [events, setEvents] = useState<Event[]>([])
+
+  const eventList = events.map((eventData) =>{
+      return(
+        <EventCard 
+            event={eventData}
+            key = {eventData.id}
+        />
+      )
+  })
+
+
 
   const countryOptions = getCountrylist().map((pair) => (
       <option value={pair[0]}>{pair[1]}</option>
   ))
   
-  function handleSearch(){
-
+  const handleSearch = async () =>{
+    const results = await fetchEvents(selectedCity, selectedCountry)
+    console.log('Results from backend', results)
+    setEvents(results)
   }
   
+
   return (
     <main>
       <select 
@@ -37,7 +54,9 @@ function App() {
 
         <h1>You selected the city {selectedCity} from country {selectedCountry}</h1>
 
-        <input type="submit"></input>
+        <button onClick={handleSearch}>submit</button>
+
+        {eventList}
     </main>
   )
 }
