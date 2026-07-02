@@ -12,6 +12,10 @@ function App() {
       <option value={pair[0]}>{pair[1]}</option>
   ))
   
+  function handleSearch(){
+
+  }
+  
   return (
     <main>
       <select 
