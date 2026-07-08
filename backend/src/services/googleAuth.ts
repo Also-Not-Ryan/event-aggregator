@@ -6,7 +6,7 @@ export const oauth2Client = new google.auth.OAuth2(
   'http://localhost:3000/auth/google/callback'
 )
 
-export const authUrl = oauth2Client.generateAuthUrl({
+const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: 'https://www.googleapis.com/auth/calendar'
 });
