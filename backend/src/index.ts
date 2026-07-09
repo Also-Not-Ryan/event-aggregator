@@ -1,6 +1,8 @@
 import 'dotenv/config'
 import express from 'express';
 import eventRoutes from './routes/events.js';
+import authRoutes from './routes/auth.js'
+
 import cors from 'cors'
 
 
@@ -11,6 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(cors())
+app.use('/auth', authRoutes)
 app.use('/events', eventRoutes);
 const PORT = 3000;
 
