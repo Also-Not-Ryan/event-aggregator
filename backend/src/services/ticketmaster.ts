@@ -17,7 +17,10 @@ export async function fetchEventsFromTicketmaster(city: string) {
             location: event._embedded.venues[0].name,
             category: event.classifications[0].segment.name,
             source: 'Ticketmaster',
-            description: event.info || event.pleaseNote ||''
+            description: event.info || event.pleaseNote ||'',
+            startTime: `${event.dates.start.localDate}T${event.dates.start.localTime}`,
+            endTime: '',
+            timezone: event.dates.timezone
         }));
 
         return normalizedEvents
