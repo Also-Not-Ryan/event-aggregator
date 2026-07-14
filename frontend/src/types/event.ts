@@ -7,4 +7,7 @@ export interface Event {
     url?: string;
     category?: string;
     source?: string;
+    startTime: string
+    endTime: string
+    timezone: string
 }
