@@ -20,8 +20,6 @@ function App() {
       )
   })
 
-
-
   const countryOptions = getCountrylist().map((pair) => (
       <option value={pair[0]}>{pair[1]}</option>
   ))
@@ -35,6 +33,10 @@ function App() {
 
   return (
     <main>
+      <button onClick={() => window.location.href = 'http://localhost:3000/auth/google'}>
+        Connect Google Calendar
+      </button>
+
       <select 
       name="countries" 
       id="idk"

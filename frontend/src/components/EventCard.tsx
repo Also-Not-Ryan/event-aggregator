@@ -1,3 +1,5 @@
+import { addToCalendar } from "../services/eventService"
+
 export default function EventCard(props: any){
     const event = props.event
     return(
@@ -9,6 +11,10 @@ export default function EventCard(props: any){
                 <h4>category: {event.category}</h4>
                 <p>{event.description}</p>
                 <p>url: {event.url}</p>
+
+                <button onClick={() => addToCalendar(event)}>
+                    Add to Calendar
+                </button>
 
             </div>
         </>
