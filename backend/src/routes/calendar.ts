@@ -6,28 +6,40 @@ type GoogleCalendarEvent = calendar_v3.Schema$Event;
 
 const router = Router();
 
-router.put('/add', async (req, res) => {
-    const event = req.body;
-
-    const googleEvent: GoogleCalendarEvent = {
-        summary: event.title,       
-        location: event.location,       
-        description: event.discription,    
-    start: {
-        dateTime: '',   // ISO format date string
-        timeZone: ''    // e.g. 'America/Vancouver'
-    },
-    end: {
-        dateTime: '',   // Google requires an end time
-        timeZone: ''
+router.post('/add', async (req, res) => {
+    try{
+        const event = req.body;
+    
+        const startDate = new Date(event.startTime);
+        const endDate = new Date(startDate.getTime() + 2*60*60*1000);
+        event.endTime = endDate.toISOString()
+    
+        const googleEvent: GoogleCalendarEvent = {
+            summary: event.title,       
+            location: event.location,       
+            description: event.description,    
+        start: {
+            dateTime: event.startTime, 
+            timeZone: event.timezone
+        },
+        end: {
+            dateTime: event.endTime,   
+            timeZone: event.timezone
+        }
+        }
+    
+        const calendar = google.calendar({version: 'v3', auth: oauth2Client})
+    
+        await calendar.events.insert({
+            calendarId: 'primary',
+            requestBody: googleEvent
+        })
+    
+        res.json({ success: true, message: 'Event added to Google Calendar' })
+    }catch (error){
+        console.error('Error adding to calendar:', error)
+        res.status(500).json({ error: 'Failed to add event to calendar' })
     }
-    }
-
-    const calendar = google.calendar({version: 'v3', auth: oauth2Client})
-
-    calendar.events.insert({
-        calendarId: 'primary'
-    })
 });
 
 export default router
