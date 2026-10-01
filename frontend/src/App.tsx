@@ -4,9 +4,32 @@ import { getCountrylist } from './utilities/countries'
 import { fetchEvents } from './services/eventService'
 import EventCard from './components/EventCard'
 import type { Event } from './types/event'
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import GoogleCalendarModal from './components/GoogleCalendarModal'
+import { addToCalendar } from './services/eventService'
+
 
 function App() {
 
+  const [addedEvents, setAddedEvents] = useState<Event[]>([])
+
+  const handleAddToCalendar = async (event: Event) => {
+      await addToCalendar(event)
+      setAddedEvents((prev) =>
+          prev.some((e) => e.id === event.id) ? prev : [...prev, event]
+      )
+  }
+
+
+  const [showCalendarModal, setShowCalendarModal] = useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('connected') === 'true') {
+        localStorage.setItem('googleCalendarConnected', 'true')
+        return false
+    }
+    return localStorage.getItem('googleCalendarConnected') !== 'true'
+  })
   const [selectedCountry, setSelectedCountry] = useState("")
   const [selectedCity, setSelectedCity] = useState("")
   const [events, setEvents] = useState<Event[]>([])
@@ -15,10 +38,16 @@ function App() {
       return(
         <EventCard 
             event={eventData}
+            onAddToCalendar={handleAddToCalendar}
             key = {eventData.id}
         />
       )
   })
+
+const handleConnectGoogleCalendar = () => {
+    window.location.href = 'http://localhost:3000/auth/google'
+}
+
 
   const countryOptions = getCountrylist().map((pair) => (
       <option value={pair[0]}>{pair[1]}</option>
@@ -30,35 +59,60 @@ function App() {
     setEvents(results)
   }
   
-
+  const calendarEvents = addedEvents.map((event)=>({
+    id: String(event.id),
+    title: event.title,
+    start: event.startTime,
+    ...(event.endTime ? { end : event.endTime } : {}),
+  }))
   return (
     <main>
-      <button onClick={() => window.location.href = 'http://localhost:3000/auth/google'}>
-        Connect Google Calendar
-      </button>
 
-      <select 
-      name="countries" 
-      id="idk"
-      value={selectedCountry} 
-      onChange={(e) => setSelectedCountry(e.target.value)}
-      >
-        {countryOptions}
-      </select>
+    {showCalendarModal && (
+    <GoogleCalendarModal
+        onConnect={handleConnectGoogleCalendar}
+        onDismiss={() => setShowCalendarModal(false)}
+    />
+    )}
 
 
-      <input
-        type="text"
-        value={selectedCity}
-        onChange={(e) => setSelectedCity(e.target.value)}
-        placeholder="e.g. Vancouver"
-        ></input>
+      <div className="search-pannel">
+        <div className="user-selection">
 
-        <h1>You selected the city {selectedCity} from country {selectedCountry}</h1>
+          <select 
+          name="countries" 
+          id="idk"
+          value={selectedCountry} 
+          onChange={(e) => setSelectedCountry(e.target.value)}
+          >
+            {countryOptions}
+          </select>
 
-        <button onClick={handleSearch}>submit</button>
+          <input
+            type="text"
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            placeholder="e.g. Vancouver"
+          ></input>
+          <button onClick={handleSearch}>submit</button>
 
-        {eventList}
+        </div>
+        
+        <div className="event-list">
+            {eventList}
+        </div>
+
+      </div>
+
+
+      <div className="calendar">
+        <FullCalendar
+          plugins={[dayGridPlugin]}
+          initialView='dayGridMonth'
+          events={calendarEvents}
+          height="100%"
+        />
+      </div>
     </main>
   )
 }

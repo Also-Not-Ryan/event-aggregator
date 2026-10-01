@@ -19,7 +19,7 @@ router.get('/google/callback', async(req, res)=>{
     const {tokens} = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
     fs.writeFileSync('tokens.json', JSON.stringify(tokens))
-    res.redirect('http://localhost:5173')
+    res.redirect('http://localhost:5173?connected=true')
 });
 
 export default router

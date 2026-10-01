@@ -1,0 +1,142 @@
+main{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
+    background-color: aliceblue;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+.search-pannel{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    overflow: hidden;
+    margin-left: 5%;
+}
+
+
+.calendar{
+    width: 60%;
+}
+
+.user-selection{
+    display: flex;
+    margin-bottom: 5%;
+    flex-wrap: wrap; 
+}
+
+.event-list{
+    overflow-y: scroll;
+    height: calc(100vh - 150px);
+}
+
+.event-card {
+    background-color: white;
+    display: flex;
+    flex-direction: column; 
+    margin-bottom: 10px;
+    border-radius: 4px;
+    text-align: left;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    border: 1px solid #e5e5e5;
+}
+
+.event-card-header {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.event-card-color-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    margin-right: 12px;
+    flex-shrink: 0;  
+}
+
+.event-card-title {
+    flex: 1;  /* takes up all remaining space, pushes arrow to the right */
+}
+
+.event-card-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: auto;  /* pushes arrow to the far right */
+}
+
+.event-card-details {
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+
+.add-to-calendar-button{
+    border-radius: 999px;
+    border: none;
+    background-color: rgba(0,0,0,0.08);
+    padding: 4px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 8px;
+    align-self: center;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 360px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: left;
+}
+
+.modal p {
+    margin: 8px 0 16px;
+    color: #555;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.modal-dismiss {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.modal-connect {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
